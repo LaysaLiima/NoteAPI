@@ -7,7 +7,9 @@ const obterLocalizacaoPorIp = async (req, res) => {
   let ip;
 
   try {
-    if (true) {
+    const isLocal = req.hostname === 'localhost' || req.hostname === '127.0.0.1';
+
+    if (isLocal) {
       const response = await axios.get('https://api.ipify.org?format=json');
       ip = response.data.ip;
 
@@ -18,7 +20,7 @@ const obterLocalizacaoPorIp = async (req, res) => {
       ip = req.ip;
     }
 
-    const geo = geoip.lookup(ip);
+    const geo = geoip.lookup(ip); 
 
     if (geo) {
       return res.status(200).json({
